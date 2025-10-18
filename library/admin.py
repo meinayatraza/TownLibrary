@@ -11,4 +11,4 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'category', 'section', 'available_copies', 'total_copies', 'is_available']
     list_filter = ['section', 'category', 'published_year']
     search_fields = ['title', 'author', 'isbn']
-    list_editable = ['available_copies', 'total_copies']
+    list_editable = ['available_copies', 'total_copies', 'category']

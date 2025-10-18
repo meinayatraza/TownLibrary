@@ -4,7 +4,7 @@ from .models import Book, Category
 
 # Home page - Select section
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 # Book list by section with search and filter
 def book_list(request, section):

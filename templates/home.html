@@ -1,5 +1,5 @@
-{% extends 'library/base.html' %}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Home - Town Library{% endblock %}
 
 {% block content %}
@@ -14,6 +14,44 @@
         </p>
         <div class="mt-6 h-1 w-32 bg-dark-green-600 mx-auto rounded"></div>
     </div>
+    
+
+
+
+<div class="relative w-full max-w-6xl h-[500px] overflow-visible flex items-center justify-center">
+
+    <!-- Carousel Container with Parallax Background -->
+    <div id="carousel3d"
+         class="relative w-full h-full flex items-center justify-center perspective-[1200px] bg-center bg-cover rounded-2xl transition-[background-position] duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)]"
+         style="background-image: url('{% static 'images/bg-pattern.jpg' %}'); background-position: 50% 50%;">
+
+      <!-- Carousel Images -->
+      <div class="relative w-full h-[80vh] flex items-center justify-center overflow-hidden">
+  <!-- Carousel Wrapper -->
+  <div id="carousel" class="relative w-[70%] h-[70%] flex items-center justify-center">
+    <!-- Images -->
+    <img src="{% static 'images/img1.jpg' %}" class="carousel-img absolute object-contain rounded-2xl max-h-[70vh] w-auto opacity-0 scale-75 translate-y-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)]" />
+    <img src="{% static 'images/img2.jpg' %}" class="carousel-img absolute object-contain rounded-2xl max-h-[70vh] w-auto opacity-0 scale-75 translate-y-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)]" />
+    <img src="{% static 'images/img3.jpg' %}" class="carousel-img absolute object-contain rounded-2xl max-h-[70vh] w-auto opacity-0 scale-75 translate-y-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)]" />
+    <img src="{% static 'images/img4.jpg' %}" class="carousel-img absolute object-contain rounded-2xl max-h-[70vh] w-auto opacity-0 scale-75 translate-y-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)]" />
+  </div>
+</div>    </div>
+
+    <!-- Navigation Arrows -->
+    <button id="prev" aria-label="Previous"
+            class="absolute left-5 z-20 p-3 text-white bg-black/40 rounded-full hover:bg-black/60 transition">
+      &#10094;
+    </button>
+    <button id="next" aria-label="Next"
+            class="absolute right-5 z-20 p-3 text-white bg-black/40 rounded-full hover:bg-black/60 transition">
+      &#10095;
+    </button>
+  </div>
+<br><br><br><br>
+
+
+
+
 
     <!-- Section Selection -->
     <div class="text-center mb-8">
@@ -32,7 +70,8 @@
                     Male Section
                 </h3>
                 <p class="text-gray-600 mb-6">
-                    Browse books available in the male section
+                    Browse books available in the male section<br>
+                    <span class="font-bold">For Male Only</span>
                 </p>
                 <a href="/male/">
                     <button class="bg-dark-green-700 hover:bg-dark-green-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
@@ -51,7 +90,8 @@
                     Female Section
                 </h3>
                 <p class="text-gray-600 mb-6">
-                    Browse books available in the female section
+                    Browse books available in the female section<br>
+                    <span class="font-bold">For Female Only</span>
                 </p>
                 <a href="/female/">
                     <button class="bg-dark-green-700 hover:bg-dark-green-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
@@ -81,4 +121,129 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const images = Array.from(document.querySelectorAll('.carousel-img'));
+  const carousel = document.getElementById('carousel3d');
+  if (!images.length || !carousel) return;
+
+  let current = 0;
+  const INTERVAL = 1500;
+  let timer = null;
+
+  // Smooth transitions (transform + opacity + blur)
+  images.forEach(img => {
+    img.style.transition = "transform 1200ms cubic-bezier(0.45,0,0.55,1), opacity 1200ms, filter 300ms";
+  });
+
+  function showSlide(index) {
+    // Reset all images
+    images.forEach((img) => {
+      img.style.zIndex = 0;
+      img.style.opacity = "0";
+      img.style.transform = "translateZ(-200px) scale(0.9)";
+      img.style.filter = "none"; // ensure no permanent blur
+    });
+
+    // Active image (center, sharp)
+    const active = images[index];
+    active.style.zIndex = 10;
+    active.style.opacity = "1";
+    active.style.transform = "translateZ(0px) scale(1)";
+    active.style.filter = "none";
+
+    // Previous and next (side, slightly back + blurred)
+    const prev = (index - 1 + images.length) % images.length;
+    const next = (index + 1) % images.length;
+
+    images[prev].style.zIndex = 5;
+    images[prev].style.opacity = "1";
+    images[prev].style.transform = "translateX(-150px) translateZ(-300px) scale(0.85)";
+    images[prev].style.filter = "blur(4px)";
+
+    images[next].style.zIndex = 5;
+    images[next].style.opacity = "1";
+    images[next].style.transform = "translateX(150px) translateZ(-300px) scale(0.85)";
+    images[next].style.filter = "blur(4px)";
+
+    // Hide all others
+    images.forEach((img, idx) => {
+      if (idx !== prev && idx !== next && idx !== index) {
+        img.style.zIndex = 0;
+        img.style.opacity = "0";
+        img.style.transform = "translateY(50px) scale(0.9)";
+        img.style.filter = "none";
+      }
+    });
+
+    // Parallax background shift
+    const offset = (index % images.length) * 10;
+    carousel.style.backgroundPosition = `${50 + (offset % 20)}% 50%`;
+  }
+
+  function nextSlide() {
+    current = (current + 1) % images.length;
+    showSlide(current);
+  }
+
+  function prevSlide() {
+    current = (current - 1 + images.length) % images.length;
+    showSlide(current);
+  }
+
+  function startAuto() {
+    stopAuto();
+    timer = setInterval(nextSlide, INTERVAL);
+  }
+
+  function stopAuto() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  // Button controls
+  document.getElementById('next').addEventListener('click', () => {
+    stopAuto(); nextSlide(); startAuto();
+  });
+  document.getElementById('prev').addEventListener('click', () => {
+    stopAuto(); prevSlide(); startAuto();
+  });
+
+  // Pause on hover
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { stopAuto(); prevSlide(); startAuto(); }
+    if (e.key === 'ArrowRight') { stopAuto(); nextSlide(); startAuto(); }
+  });
+
+  // Touch/Swipe support
+  let startX = 0;
+  carousel.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    stopAuto();
+  });
+
+  carousel.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+    startAuto();
+  });
+
+  // Initialize carousel
+  showSlide(current);
+  startAuto();
+});
+</script>
+
 {% endblock %}
