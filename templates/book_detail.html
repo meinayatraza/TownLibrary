@@ -1,0 +1,142 @@
+{% extends 'library/base.html' %}
+
+{% block title %}{{ book.title }} - Town Library{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Back Button -->
+    <div class="mb-6">
+        <a href="/{{ book.section }}/" 
+           class="inline-flex items-center text-dark-green-700 hover:text-dark-green-900 font-medium">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to {{ book.get_section_display }}
+        </a>
+    </div>
+
+    <!-- Book Detail Card -->
+    <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="md:flex">
+            <!-- Book Cover Section -->
+            <div class="md:w-1/3 bg-gradient-to-br from-dark-green-50 to-dark-green-100 p-8 flex items-center justify-center">
+                {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}" 
+                     alt="{{ book.title }}"
+                     class="max-w-full h-auto rounded-lg shadow-lg">
+                {% else %}
+                <div class="w-64 h-96 bg-white flex items-center justify-center rounded-lg shadow-lg">
+                    <span class="text-9xl text-dark-green-600">📖</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Book Information Section -->
+            <div class="md:w-2/3 p-8">
+                <!-- Title and Author -->
+                <div class="mb-6">
+                    <h1 class="text-4xl font-bold text-dark-green-900 mb-2">
+                        {{ book.title }}
+                    </h1>
+                    <p class="text-xl text-gray-600">
+                        by <span class="font-semibold text-dark-green-800">{{ book.author }}</span>
+                    </p>
+                </div>
+
+                <!-- Availability Status -->
+                <div class="mb-6 p-4 rounded-lg {% if book.is_available %}bg-green-50 border-2 border-green-200{% else %}bg-red-50 border-2 border-red-200{% endif %}">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Availability Status</p>
+                            {% if book.is_available %}
+                            <p class="text-2xl font-bold text-green-700">✓ Available</p>
+                            {% else %}
+                            <p class="text-2xl font-bold text-red-700">✗ Not Available</p>
+                            {% endif %}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Copies</p>
+                            <p class="text-2xl font-bold text-dark-green-700">
+                                {{ book.available_copies }} / {{ book.total_copies }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-dark-green-600 h-3 rounded-full transition-all duration-500" 
+                                 style="width: {% widthratio book.available_copies book.total_copies 100 %}%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details Grid -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">ISBN</p>
+                        <p class="text-lg font-medium text-gray-900">{{ book.isbn }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Publisher</p>
+                        <p class="text-lg font-medium text-gray-900">{{ book.publisher|default:"N/A" }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Published Year</p>
+                        <p class="text-lg font-medium text-gray-900">{{ book.published_year }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Category</p>
+                        <p class="text-lg font-medium text-dark-green-800">{{ book.category.name }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Section</p>
+                        <p class="text-lg font-medium text-gray-900">{{ book.get_section_display }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Shelf Location</p>
+                        <p class="text-lg font-medium text-gray-900">{{ book.shelf_location|default:"Not specified" }}</p>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                {% if book.description %}
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-dark-green-900 mb-3 flex items-center">
+                        <span class="mr-2">📝</span> Description
+                    </h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-gray-700 leading-relaxed">{{ book.description }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Additional Info -->
+                <div class="border-t pt-4">
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <div>
+                            <span class="font-semibold">Added:</span> {{ book.added_date|date:"M d, Y" }}
+                        </div>
+                        <div>
+                            <span class="font-semibold">Last Updated:</span> {{ book.updated_date|date:"M d, Y" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-6 flex gap-4 justify-center">
+        <a href="/{{ book.section }}/">
+            <button class="bg-dark-green-700 hover:bg-dark-green-800 text-white font-semibold py-3 px-8 rounded-lg transition transform hover:scale-105">
+                Back to Book List
+            </button>
+        </a>
+        <a href="/">
+            <button class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition transform hover:scale-105">
+                Back to Home
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock %}

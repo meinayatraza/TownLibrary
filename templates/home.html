@@ -1,0 +1,84 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Home - Town Library{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header Section -->
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-bold text-dark-green-900 mb-4">
+            Welcome to Town Library
+        </h1>
+        <p class="text-xl text-gray-600">
+            Your gateway to knowledge and learning
+        </p>
+        <div class="mt-6 h-1 w-32 bg-dark-green-600 mx-auto rounded"></div>
+    </div>
+
+    <!-- Section Selection -->
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-8">
+            Please select a section to browse books
+        </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Male Section Card -->
+        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div class="border-t-4 border-dark-green-700 rounded-t-lg"></div>
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">👨‍🎓</div>
+                <h3 class="text-3xl font-bold text-dark-green-900 mb-4">
+                    Male Section
+                </h3>
+                <p class="text-gray-600 mb-6">
+                    Browse books available in the male section
+                </p>
+                <a href="/male/">
+                    <button class="bg-dark-green-700 hover:bg-dark-green-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
+                        Enter Male Section
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Female Section Card -->
+        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div class="border-t-4 border-dark-green-700 rounded-t-lg"></div>
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">👩‍🎓</div>
+                <h3 class="text-3xl font-bold text-dark-green-900 mb-4">
+                    Female Section
+                </h3>
+                <p class="text-gray-600 mb-6">
+                    Browse books available in the female section
+                </p>
+                <a href="/female/">
+                    <button class="bg-dark-green-700 hover:bg-dark-green-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
+                        Enter Female Section
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="mt-16 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div class="bg-dark-green-50 p-6 rounded-lg text-center">
+            <div class="text-4xl mb-3">📖</div>
+            <h4 class="font-semibold text-dark-green-900 mb-2">Wide Collection</h4>
+            <p class="text-gray-600 text-sm">Thousands of books across various categories</p>
+        </div>
+        <div class="bg-dark-green-50 p-6 rounded-lg text-center">
+            <div class="text-4xl mb-3">🔍</div>
+            <h4 class="font-semibold text-dark-green-900 mb-2">Easy Search</h4>
+            <p class="text-gray-600 text-sm">Find your favorite books quickly</p>
+        </div>
+        <div class="bg-dark-green-50 p-6 rounded-lg text-center">
+            <div class="text-4xl mb-3">✨</div>
+            <h4 class="font-semibold text-dark-green-900 mb-2">Always Updated</h4>
+            <p class="text-gray-600 text-sm">Regular updates with new arrivals</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
