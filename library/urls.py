@@ -11,4 +11,8 @@ urlpatterns = [
     path('male/', views.book_list, {'section': 'male'}, name='male_section'),
     path('female/', views.book_list, {'section': 'female'}, name='female_section'),
     path('book/<int:book_id>/', views.book_detail, name='book_detail'),
+    path('contact/', views.contact, name='contact'),
+    path('login/', views.login_view, name='login'),
+    path('adminLogin/', views.adminLogin, name='adminLogin'),
+    path('logout/', views.logout_view, name='logout'),
 ]

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title%}Admin{%endblock%}
+{%load static%}
+
+{% block content %}
+
+<a href="{% url 'logout' %}" class="text-red-500 hover:text-red-700">Logout</a>
+
+{% endblock %}
